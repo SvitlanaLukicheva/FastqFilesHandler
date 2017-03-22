@@ -2,12 +2,12 @@ DATA_FOLDER=./data
 SOURCES_FOLDER=./src
 
 
-all: reads_merger.o fastq_to_fasta_converter.o command_line_arguments.o main.o
+all: main.o
 	@echo "=== Compiling library..."
-	@g++ -o fastq_files_converter reads_merger.o fastq_to_fasta_converter.o main.o
+	@g++ -o fastq_files_converter reads_merger.o fastq_to_fasta_converter.o command_line_arguments.o main.o
 	@echo "=== Done."
 	
-main.o:
+main.o: reads_merger.o fastq_to_fasta_converter.o command_line_arguments.o
 	@echo "=== Compiling the main program..."
 	@g++ -c ${SOURCES_FOLDER}/main.cpp
 
