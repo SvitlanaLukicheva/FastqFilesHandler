@@ -17,8 +17,8 @@ class CommandLineArguments
 {    
 public:
     int JobType;
-    std::list<char*> InputFiles;
-    char* OutputFile;
+    std::list<std::string> InputFiles;
+    std::string OutputFile;
     
     CommandLineArguments();
     

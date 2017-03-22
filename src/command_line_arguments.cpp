@@ -13,6 +13,7 @@ CommandLineArguments::CommandLineArguments()
 bool CommandLineArguments::Parse(int argc, char* argv[])
 {
     bool result = true;
+    bool debug = false;
     
     if(argc <= 1)
     {
@@ -23,75 +24,78 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
     {
         bool job_type_specified, input_specified, output_specified = false;
         
-        for(int i =  0; i < argc; i++)
+        for(int i = 1; i < argc; i++)
         {
-            if(sizeof(argv[i])/sizeof(*argv[i]) == 2 /* size */ && argv[i][0] == '-')
+            if(debug)
             {
-                switch(argv[i][1])
+                cout << "=== DEBUG: reading parameter " << argv[i] << "\n";
+            }
+            if(argv[i][0] == '-')
+            {
+                string parameter = argv[i];
+                if(parameter ==  "-j")  // job type
                 {
-                    case 'j':  // job type
+                    i++;
+                    string job_type = argv[i];
+                    if(debug)
+                        cout << "=== DEBUG: job type is " << job_type << "\n";
+                    if(job_type == "merger")
                     {
-                        i++;
-                        char* job_type = argv[i];
-                        if(job_type == "merger")
-                        {
-                            JobType = 0;
-                            job_type_specified = true;
-                        }
-                        else if(job_type == "converter")
-                        {
-                            JobType = 1;
-                            job_type_specified = true;
-                        }
-                        else
-                        {
-                            ShowUsage();
-                            result = false;
-                        }
-                        delete job_type;
-                        break;
+                        JobType = 0;
+                        job_type_specified = true;
                     }
-                    case 'o':  // output
+                    else if(job_type == "converter")
                     {
-                        i++;
-                        OutputFile = argv[i];
-                        output_specified = true;
-                        break;
+                        JobType = 1;
+                        job_type_specified = true;
                     }
-                    case 'i':  // input
+                    else
                     {
-                        i++;
-                        list<char*>::iterator it;
-                        while(i < argc && argv[i][0] != '-')
-                        {
-                            InputFiles.insert(it, argv[i]);
-                            it++;
-                            i++;
-                        }
-                        input_specified = true;
-                        break;
-                    }
-                    default:
-                    {
-                        ShowUsage();
+                        cout << "=== FAILURE: invalid job type specified: " << job_type << "\n";
                         result = false;
-                        break;
                     }
+                }
+                else if(parameter == "-o")  // output
+                {
+                    i++;
+                    OutputFile = argv[i];
+                    output_specified = true;
+                }
+                else if(parameter == "-i")  // input
+                {
+                    i++;
+                    while(i < argc && argv[i][0] != '-')
+                    {
+                        string input_file = argv[i];
+                        if(debug)
+                            cout << "=== DEBUG: adding input file " << input_file << "\n";
+                        InputFiles.push_back(input_file);
+                        i++;
+                    }
+                    input_specified = true;
+                }
+                else
+                {
+                    cout << "=== FAILURE: unknown parameter " << parameter << "\n";
+                    result = false;
+                    break;
                 }
             }
             else
             {
-                ShowUsage();
+                cout << "=== FAILURE: invalid usage of program arguments at " << argv[i] << "\n";
                 result = false;
             }
         }
         if(!job_type_specified || !input_specified || !output_specified)
         {
             cout << "=== FAILURE: mandatory arguments are missing \n";
-            ShowUsage();
             result = false;
         }
     }
+    
+    if(result == false)
+        ShowUsage();
     
     return result;
 }
