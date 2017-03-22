@@ -24,8 +24,12 @@ command_line_arguments.o: ${SOURCES_FOLDER}/command_line_arguments.hpp
 	@g++ -c ${SOURCES_FOLDER}/command_line_arguments.cpp
 
 
-run: all
-	./fastq_files_converter -j merger -o ${DATA_FOLDER}/output -i ${DATA_FOLDER}/input_1 ${DATA_FOLDER}/input_2 ${DATA_FOLDER}/input_3 ${DATA_FOLDER}/input_4
+run_merger: all
+	./fastq_files_converter -j merger -o ${DATA_FOLDER}/output_merger -i ${DATA_FOLDER}/input_1 ${DATA_FOLDER}/input_2 ${DATA_FOLDER}/input_3 ${DATA_FOLDER}/input_4
+	
+run_converter: all
+	./fastq_files_converter -j converter -o ${DATA_FOLDER}/output_converter -i ${DATA_FOLDER}/output_merger
+	
 
 clean:
 	@echo "=== Cleaning files..."
