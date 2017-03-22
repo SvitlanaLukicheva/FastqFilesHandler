@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
         if(arguments->JobType == 0)   // reads merger
         {
             ReadsMerger* merger = new ReadsMerger(arguments->InputFiles, arguments->OutputFile);
-            result = merger->MergeReads();
+            result = merger->MergeReads() ? 0 : -1;
             delete merger;
         }
         else if(arguments->JobType == 1)  // fastq to fasta converter
@@ -41,5 +41,6 @@ int main(int argc, char* argv[])
     delete arguments;
 
     cout << "=== Done\n";
+    
     return result;
 }
