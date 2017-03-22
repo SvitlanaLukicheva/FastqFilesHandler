@@ -3,7 +3,7 @@
 using namespace std;
 
 
-ReadsMerger::ReadsMerger(list<char*> input_files, char* output_file)
+ReadsMerger::ReadsMerger(list<string> input_files, string output_file)
 {
     my_input_files = input_files;
     my_output_file = output_file;
@@ -13,7 +13,7 @@ ReadsMerger::ReadsMerger(list<char*> input_files, char* output_file)
 bool ReadsMerger::MergeReads()
 {
     bool result = true;
-    ofstream output (my_output_file);
+    ofstream output (my_output_file.c_str());
     if(output.is_open())
     {
         if(my_input_files.size() % 2 != 0)
@@ -23,14 +23,14 @@ bool ReadsMerger::MergeReads()
         }
         else
         {
-            for(list<char*>::iterator it=my_input_files.begin(); it != my_input_files.end(); it++)
+            for(list<string>::iterator it=my_input_files.begin(); it != my_input_files.end(); it++)
             {
-                char* file_1 = *it;
+                string file_1 = *it;
                 it++;
-                char* file_2 = *it;
+                string file_2 = *it;
                 cout << "=== Reading files " << file_1 << " and " << file_2 << "\n";
-                ifstream input_1(file_1);
-                ifstream input_2(file_2);
+                ifstream input_1(file_1.c_str());
+                ifstream input_2(file_2.c_str());
                 if(input_1.is_open() && input_2.is_open())
                     merge_reads(&input_1, &input_2, &output);
                 else
