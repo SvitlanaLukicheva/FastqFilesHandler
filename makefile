@@ -25,7 +25,7 @@ command_line_arguments.o: ${SOURCES_FOLDER}/command_line_arguments.hpp
 
 
 run: all
-	./reads_merger ${DATA_FOLDER}/output ${DATA_FOLDER}/input_1 ${DATA_FOLDER}/input_2 ${DATA_FOLDER}/input_3 ${DATA_FOLDER}/input_4
+	./fastq_files_converter -j merger -o ${DATA_FOLDER}/output -i ${DATA_FOLDER}/input_1 ${DATA_FOLDER}/input_2 ${DATA_FOLDER}/input_3 ${DATA_FOLDER}/input_4
 
 clean:
 	@echo "=== Cleaning files..."
