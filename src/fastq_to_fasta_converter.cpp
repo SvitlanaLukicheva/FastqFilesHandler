@@ -3,6 +3,8 @@
 
 #include "fastq_to_fasta_converter.hpp"
 
+using namespace std;
+
 
 bool FastqToFastaConverter::Convert(string input, string output)
 {

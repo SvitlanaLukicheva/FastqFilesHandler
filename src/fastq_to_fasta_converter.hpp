@@ -10,16 +10,17 @@
 
 
 #include <string>
-using namespace std;
+
 
 class FastqToFastaConverter
 {
 public:
-    bool Convert(string input, string output);
+    bool Convert(std::string input, std::string output);
     
 private:
-    bool convert(ifstream *input, ofstream *output);
+    bool convert(std::ifstream *input, std::ofstream *output);
 };
+
 
 #endif /* FASTQ_TO_FASTA_CONVERTER_HPP */
 
