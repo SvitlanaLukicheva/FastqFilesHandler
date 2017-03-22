@@ -15,10 +15,14 @@
 class FastqToFastaConverter
 {
 public:
-    bool Convert(std::string input, std::string output);
+    FastqToFastaConverter(std::string input, std::string output);
+    bool Convert();
     
 private:
-    bool convert(std::ifstream *input, std::ofstream *output);
+    std::string my_input_file;
+    std::string my_output_file;
+    
+    bool read_and_write_lines(std::ifstream *input, std::ofstream *output);
 };
 
 

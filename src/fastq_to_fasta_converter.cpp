@@ -6,31 +6,46 @@
 using namespace std;
 
 
-bool FastqToFastaConverter::Convert(string input, string output)
+FastqToFastaConverter::FastqToFastaConverter(string input, string output)
+{
+    my_input_file = input;
+    my_output_file = output;
+}
+
+
+bool FastqToFastaConverter::Convert()
 {
     bool result;
+    cout << "Converting the file....\n";
     
-    ifstream input_stream(input.c_str());
-    ofstream output_stream(output.c_str());
+    ifstream input_stream(my_input_file.c_str());
+    ofstream output_stream(my_output_file.c_str());
     
     if(input_stream.is_open() && output_stream.is_open())
     {
-        result = convert(&input_stream, &output_stream);
+        bool please_continue = true;
+        while(please_continue)
+        {
+            please_continue = read_and_write_lines(&input_stream, &output_stream);
+        }
     }
     else
     {
         if(!input_stream.is_open())
-            cout << "=== FAILURE: Unable to open the input file " << input << "\n";
+            cout << "=== FAILURE: unable to open the input file " << my_input_file << "\n";
         if(!output_stream.is_open())
-            cout << "=== FAILURE: Unable to open the output file " << output << "\n";
+            cout << "=== FAILURE: unable to open the output file " << my_output_file << "\n";
         result = false;
     }
+    
+    if(result)
+        cout << "SUCCESS: file successfully converted!!\n";
     
     return result;
 }
 
 
-bool FastqToFastaConverter::convert(ifstream* input, ofstream* output)
+bool FastqToFastaConverter::read_and_write_lines(ifstream* input, ofstream* output)
 {
     bool result = false;
     
