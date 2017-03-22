@@ -13,6 +13,8 @@ ReadsMerger::ReadsMerger(list<string> input_files, string output_file)
 bool ReadsMerger::MergeReads()
 {
     bool result = true;
+    cout << "Merging the files....\n";
+    
     ofstream output (my_output_file.c_str());
     if(output.is_open())
     {
@@ -50,7 +52,7 @@ bool ReadsMerger::MergeReads()
     }
     
     if(result == true)
-        cout << "=== SUCCESS: Files successfully read\n";
+        cout << "=== SUCCESS: Files successfully merged\n";
     
     return result;
 }
