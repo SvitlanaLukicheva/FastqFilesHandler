@@ -1,7 +1,62 @@
 #include "reads_merger.hpp"
 
+using namespace std;
 
-bool ReadsMerger::MergeReads(ifstream *input_1, ifstream *input_2, ofstream *output)
+
+ReadsMerger::ReadsMerger(list<char*> input_files, char* output_file)
+{
+    my_input_files = input_files;
+    my_output_file = output_file;
+}
+
+
+bool ReadsMerger::MergeReads()
+{
+    bool result = true;
+    ofstream output (my_output_file);
+    if(output.is_open())
+    {
+        if(my_input_files.size() % 2 != 0)
+        {
+            cout << "FAILURE: Invalid number of input files provided: " << my_input_files.size() << "\n";
+            result = -1;
+        }
+        else
+        {
+            for(list<char*>::iterator it=my_input_files.begin(); it != my_input_files.end(); it++)
+            {
+                char* file_1 = *it;
+                it++;
+                char* file_2 = *it;
+                cout << "=== Reading files " << file_1 << " and " << file_2 << "\n";
+                ifstream input_1(file_1);
+                ifstream input_2(file_2);
+                if(input_1.is_open() && input_2.is_open())
+                    merge_reads(&input_1, &input_2, &output);
+                else
+                {
+                    cout << "=== FAILURE: Unable to open input files\n";
+                    result = -1;
+                    break;
+                }
+            }
+        }
+        output.close();
+    }
+    else
+    {
+        cout << "=== FAILURE: Unable to open the output file " << my_output_file << "\n";
+        result = false;
+    }
+    
+    if(result == true)
+        cout << "=== SUCCESS: Files successfully read\n";
+    
+    return result;
+}
+
+
+bool ReadsMerger::merge_reads(ifstream *input_1, ifstream *input_2, ofstream *output)
 {
     bool result = true;
     bool please_continue = true;
