@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
     int result = 0;
 
-    cout << "=== Welcome to reads merger!\n";
+    cout << "=== Welcome to FastqFilesConverter!\n";
     CommandLineArguments* arguments = new CommandLineArguments();
     FastqToFastaConverter* converter;
     
@@ -29,7 +29,9 @@ int main(int argc, char* argv[])
         }
         else if(arguments->JobType == 1)  // fastq to fasta converter
         {
-            
+            FastqToFastaConverter* converter = new FastqToFastaConverter(*(arguments->InputFiles.begin()), arguments->OutputFile);
+            converter->Convert();
+            delete converter;
         }
         else
         {
