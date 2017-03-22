@@ -13,17 +13,10 @@
 #include <list>
 
 
-enum JobType
-{
-    ReadsMerger,
-    FastqToFastaConverter,
-    Invalid
-};
-
 class CommandLineArguments
 {    
 public:
-    JobType MyJobType;
+    int JobType;
     std::list<char*> InputFiles;
     char* OutputFile;
     

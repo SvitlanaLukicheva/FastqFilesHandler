@@ -6,7 +6,7 @@ using namespace std;
 
 CommandLineArguments::CommandLineArguments()
 {
-    MyJobType = Invalid;
+    JobType = -1;
 }
 
 
@@ -35,12 +35,12 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                         char* job_type = argv[i];
                         if(job_type == "merger")
                         {
-                            MyJobType = ReadsMerger;
+                            JobType = 0;
                             job_type_specified = true;
                         }
                         else if(job_type == "converter")
                         {
-                            MyJobType = FastqToFastaConverter;
+                            JobType = 1;
                             job_type_specified = true;
                         }
                         else
