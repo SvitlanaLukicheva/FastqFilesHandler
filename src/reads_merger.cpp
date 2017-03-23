@@ -13,14 +13,14 @@ ReadsMerger::ReadsMerger(list<string> input_files, string output_file)
 bool ReadsMerger::MergeReads()
 {
     bool result = true;
-    cout << "Merging the files....\n";
+    cout << "=== INFO: merging the files....\n";
     
     ofstream output (my_output_file.c_str());
     if(output.is_open())
     {
         if(my_input_files.size() % 2 != 0)
         {
-            cout << "FAILURE: Invalid number of input files provided: " << my_input_files.size() << "\n";
+            cout << "FAILURE: invalid number of input files provided: " << my_input_files.size() << "\n";
             result = -1;
         }
         else
@@ -30,7 +30,7 @@ bool ReadsMerger::MergeReads()
                 string file_1 = *it;
                 it++;
                 string file_2 = *it;
-                cout << "=== Reading files " << file_1 << " and " << file_2 << "\n";
+                cout << "=== INFO: reading files " << file_1 << " and " << file_2 << "\n";
                 ifstream input_1(file_1.c_str());
                 ifstream input_2(file_2.c_str());
                 if(input_1.is_open() && input_2.is_open())
@@ -72,7 +72,7 @@ bool ReadsMerger::merge_reads(ifstream *input_1, ifstream *input_2, ofstream *ou
         else if(write_1_ok || write_2_ok)
         {
             please_continue = false;
-            cout << "=== Reading failed\n";
+            cout << "=== INFO: reading failed\n";
             result = false;
         }
         else

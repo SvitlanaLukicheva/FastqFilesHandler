@@ -16,7 +16,7 @@ FastqToFastaConverter::FastqToFastaConverter(string input, string output)
 bool FastqToFastaConverter::Convert()
 {
     bool result;
-    cout << "Converting the file....\n";
+    cout << "=== INFO: converting the file....\n";
     
     ifstream input_stream(my_input_file.c_str());
     ofstream output_stream(my_output_file.c_str());

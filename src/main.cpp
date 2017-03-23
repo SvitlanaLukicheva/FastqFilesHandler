@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
     int result = 0;
 
-    cout << "=== Welcome to FastqFilesConverter!\n";
+    cout << "=== INFO: welcome to FastqFilesConverter!\n";
     CommandLineArguments* arguments = new CommandLineArguments();
     FastqToFastaConverter* converter;
     
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
     
     delete arguments;
 
-    cout << "=== Done\n";
+    cout << "=== INFO: done\n";
     
     return result;
 }
