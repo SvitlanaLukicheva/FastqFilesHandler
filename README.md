@@ -5,8 +5,12 @@ Program allowing to perform the following transformations on fastq files:
 - remove read pairs containing a specified DNA sequence from paired-end fastq files
 
 
-# User's guide
-The program can be launched by invoking launcher.exe.
+# Compilation
+The program can be compiled by running "make" command in the main folder.
+
+
+# Usage
+The program can be launched by invoking launcher.exe situated in bin folder.
 
 ## Mandatory parameters:
 - **-x**: the program to execute
