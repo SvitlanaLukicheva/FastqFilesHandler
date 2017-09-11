@@ -27,7 +27,7 @@ The program can be launched by invoking launcher.exe situated in bin folder.
 
 ### Merger
 
-Merger takes as input a list of paired-end files in fastq format and provides a unique interleaved file in fastq format. The program launches an error if an uneven number of input files is provided.
+Merger takes as input a list of paired-end files in fastq format and provides a unique interleaved file in fastq format. The program raises an error if an uneven number of input files is provided.
 
 ```
 launcher.exe -x merger -i i1_r1.fastq i1_r2.fastq i2_r1.fastq i2_r2.fastq -o ${DATA_DIR}/output_merger.fastq
@@ -35,7 +35,7 @@ launcher.exe -x merger -i i1_r1.fastq i1_r2.fastq i2_r1.fastq i2_r2.fastq -o ${D
 
 ### Converter
 
-Converter takes as input one file in fastq format and converts it in fasta format.
+Converter takes as input one file in fastq format and converts it in fasta format. The program raises an error if more than one input file is provided.
 
 ```
 launcher.exe -x converter -i output_merger.fastq -o output_converter.fasta
