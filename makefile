@@ -64,7 +64,7 @@ full_clean: clean
 ############ PROGRAM_EXECUTION ############	
 	
 run_merger: all
-	$(TARGET) -j merger -o ${DATA_DIR}/output_merger -i ${DATA_DIR}/input_1 ${DATA_DIR}/input_2 ${DATA_DIR}/input_3 ${DATA_DIR}/input_4
+	$(TARGET_DIR)/$(TARGET) -j merger -o ${DATA_DIR}/output_merger -i ${DATA_DIR}/input_1 ${DATA_DIR}/input_2 ${DATA_DIR}/input_3 ${DATA_DIR}/input_4
 	
 run_converter: all
-	$(TARGET) -j converter -o ${DATA_DIR}/output_converter -i ${DATA_DIR}/output_merger
+	$(TARGET_DIR)/$(TARGET) -j converter -o ${DATA_DIR}/output_converter -i ${DATA_DIR}/output_merger
