@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
     int result = 0;
     OutputFormatter output_formatter;
 
-    output_formatter.DisplayInfo("WELCOME TO FISTQFILESCONVERTER!");
+    output_formatter.DisplayInfo("WELCOME TO FASTQ FILES CONVERTER!");
     CommandLineArguments* arguments = new CommandLineArguments();
     FastqToFastaConverter* converter;
     
