@@ -1,9 +1,4 @@
-#include <fstream>
-#include <iostream>
-
 #include "fastq_to_fasta_converter.hpp"
-
-using namespace std;
 
 
 FastqToFastaConverter::FastqToFastaConverter(string input, string output)
@@ -13,10 +8,10 @@ FastqToFastaConverter::FastqToFastaConverter(string input, string output)
 }
 
 
-bool FastqToFastaConverter::Convert()
+bool FastqToFastaConverter::DoTheJob()
 {
     bool result;
-    cout << "=== INFO: converting the file....\n";
+    output_formatter.DisplayInfo("Converting the file....");
     
     ifstream input_stream(my_input_file.c_str());
     ofstream output_stream(my_output_file.c_str());
@@ -32,14 +27,14 @@ bool FastqToFastaConverter::Convert()
     else
     {
         if(!input_stream.is_open())
-            cout << "=== FAILURE: unable to open the input file " << my_input_file << "\n";
+            output_formatter.DisplayError("Unable to open the input file " + my_input_file);
         if(!output_stream.is_open())
-            cout << "=== FAILURE: unable to open the output file " << my_output_file << "\n";
+            output_formatter.DisplayError("Unable to open the output file " + my_output_file);
         result = false;
     }
     
     if(result)
-        cout << "SUCCESS: file successfully converted!!\n";
+        output_formatter.DisplayInfo("File successfully converted!!");
     
     return result;
 }

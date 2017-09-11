@@ -1,17 +1,15 @@
-#include <iostream>
-
+#include "output_formatter.hpp"
 #include "command_line_arguments.hpp"
 #include "fastq_to_fasta_converter.hpp"
 #include "reads_merger.hpp"
-
-using namespace std;
 
 
 int main(int argc, char* argv[])
 {
     int result = 0;
+    OutputFormatter output_formatter;
 
-    cout << "=== INFO: welcome to FastqFilesConverter!\n";
+    output_formatter.DisplayInfo("WELCOME TO FISTQFILESCONVERTER!");
     CommandLineArguments* arguments = new CommandLineArguments();
     FastqToFastaConverter* converter;
     
@@ -24,25 +22,33 @@ int main(int argc, char* argv[])
         if(arguments->JobType == 0)   // reads merger
         {
             ReadsMerger* merger = new ReadsMerger(arguments->InputFiles, arguments->OutputFile);
-            result = merger->MergeReads() ? 0 : -1;
+            result = merger->DoTheJob() ? 0 : -1;
             delete merger;
         }
         else if(arguments->JobType == 1)  // fastq to fasta converter
         {
-            FastqToFastaConverter* converter = new FastqToFastaConverter(*(arguments->InputFiles.begin()), arguments->OutputFile);
-            converter->Convert();
-            delete converter;
+            if(arguments->InputFiles.size() != 1)
+            {
+                output_formatter.DisplayError("Invalid number of input files provided: " + arguments->InputFiles.size() + string(" instead of 1"));
+                result = -1;
+            }
+            else
+            {
+                FastqToFastaConverter* converter = new FastqToFastaConverter(*(arguments->InputFiles.begin()), arguments->OutputFile);
+                converter->DoTheJob();
+                delete converter;
+            }
         }
         else
         {
-            cout << "=== FAILURE: Unknown job type (" << arguments->JobType << "\n";
+            output_formatter.DisplayError("Unknown job type (" + arguments->JobType);
             result = -1;
         }
     }
     
     delete arguments;
 
-    cout << "=== INFO: done\n";
+    output_formatter.DisplayInfo("DONE");
     
     return result;
 }

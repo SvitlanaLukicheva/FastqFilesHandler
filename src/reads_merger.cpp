@@ -1,7 +1,5 @@
 #include "reads_merger.hpp"
 
-using namespace std;
-
 
 ReadsMerger::ReadsMerger(list<string> input_files, string output_file)
 {
@@ -10,17 +8,17 @@ ReadsMerger::ReadsMerger(list<string> input_files, string output_file)
 }
 
 
-bool ReadsMerger::MergeReads()
+bool ReadsMerger::DoTheJob()
 {
     bool result = true;
-    cout << "=== INFO: merging the files....\n";
+    output_formatter.DisplayInfo("Merging the files....");
     
     ofstream output (my_output_file.c_str());
     if(output.is_open())
     {
         if(my_input_files.size() % 2 != 0)
         {
-            cout << "FAILURE: invalid number of input files provided: " << my_input_files.size() << "\n";
+            output_formatter.DisplayError("Invalid number of input files provided: " + my_input_files.size());
             result = -1;
         }
         else
@@ -30,14 +28,14 @@ bool ReadsMerger::MergeReads()
                 string file_1 = *it;
                 it++;
                 string file_2 = *it;
-                cout << "=== INFO: reading files " << file_1 << " and " << file_2 << "\n";
+                output_formatter.DisplayInfo("Reading files " + file_1 + " and " + file_2);
                 ifstream input_1(file_1.c_str());
                 ifstream input_2(file_2.c_str());
                 if(input_1.is_open() && input_2.is_open())
                     merge_reads(&input_1, &input_2, &output);
                 else
                 {
-                    cout << "=== FAILURE: Unable to open input files\n";
+                    output_formatter.DisplayError("Unable to open input files");
                     result = -1;
                     break;
                 }
@@ -47,12 +45,12 @@ bool ReadsMerger::MergeReads()
     }
     else
     {
-        cout << "=== FAILURE: Unable to open the output file " << my_output_file << "\n";
+        output_formatter.DisplayError("Unable to open the output file " + my_output_file);
         result = false;
     }
     
     if(result == true)
-        cout << "=== SUCCESS: Files successfully merged\n";
+        output_formatter.DisplayInfo("Files successfully merged");
     
     return result;
 }
@@ -72,7 +70,7 @@ bool ReadsMerger::merge_reads(ifstream *input_1, ifstream *input_2, ofstream *ou
         else if(write_1_ok || write_2_ok)
         {
             please_continue = false;
-            cout << "=== INFO: reading failed\n";
+            output_formatter.DisplayError("Reading failed");
             result = false;
         }
         else

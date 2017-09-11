@@ -2,24 +2,26 @@
 #define READS_MERGER_HPP
 
 
-#include <fstream>
-#include <iostream>
-#include <list>
-#include <string>
+#include "main_job.hpp"
+
+using std::ifstream;
+using std::ofstream;
+using std::list;
+using std::string;
 
 
-class ReadsMerger
+class ReadsMerger : MainJob
 {
     public:
-        ReadsMerger(std::list<std::string> input_files, std::string output_files);
-        bool MergeReads();
+        ReadsMerger(list<string> input_files, string output_files);
+        bool DoTheJob();
 
     private:
-        std::list<std::string> my_input_files;
-        std::string my_output_file;
+        std::list<string> my_input_files;
+        string my_output_file;
         
-        bool merge_reads(std::ifstream *input_1, std::ifstream *input_2, std::ofstream *output);
-        bool read_and_write_lines(std::ifstream *input, std::ofstream *output);
+        bool merge_reads(ifstream *input_1, ifstream *input_2, ofstream *output);
+        bool read_and_write_lines(ifstream *input, ofstream *output);
 };
 
 

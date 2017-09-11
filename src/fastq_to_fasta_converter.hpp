@@ -9,20 +9,24 @@
 #define FASTQ_TO_FASTA_CONVERTER_HPP
 
 
-#include <string>
+#include "main_job.hpp"
+
+using std::ifstream;
+using std::ofstream;
+using std::string;
 
 
-class FastqToFastaConverter
+class FastqToFastaConverter : MainJob
 {
-public:
-    FastqToFastaConverter(std::string input, std::string output);
-    bool Convert();
-    
-private:
-    std::string my_input_file;
-    std::string my_output_file;
-    
-    bool read_and_write_lines(std::ifstream *input, std::ofstream *output);
+    public:
+        FastqToFastaConverter(string input, string output);
+        bool DoTheJob();
+
+    private:
+        string my_input_file;
+        string my_output_file;
+
+        bool read_and_write_lines(ifstream *input, ofstream *output);
 };
 
 
