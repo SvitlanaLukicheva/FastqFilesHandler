@@ -37,7 +37,7 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
             if(argv[i][0] == '-')
             {
                 string parameter = argv[i];
-                if(parameter ==  "-j")  // job type
+                if(parameter ==  "-x")  // job type
                 {
                     i++;
                     string job_type = argv[i];
