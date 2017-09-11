@@ -21,8 +21,6 @@ class CommandLineArguments
 public:
     int JobType;
     list<string> InputFiles;
-    string InputFile1;
-    string InputFile2;
     string OutputFile;
  
     CommandLineArguments();

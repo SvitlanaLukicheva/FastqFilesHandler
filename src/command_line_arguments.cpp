@@ -72,16 +72,6 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                         i++;
                     }
                 }
-                else if(parameter == "i1")  // first paired end file
-                {
-                    i++;
-                    InputFile1 = argv[i];
-                }
-                else if(parameter == "i2")  // second paired end file
-                {
-                    i++;
-                    InputFile2 = argv[i];
-                }
                 else
                 {
                     output_formatter.DisplayError("Unknown parameter " + parameter);
@@ -95,15 +85,10 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                 result = false;
             }
         }
-        if(JobType == -1 || (InputFiles.empty() && (InputFile1.empty() || InputFile2.empty())) || OutputFile.empty())
+        if(JobType == -1 || InputFiles.empty() || OutputFile.empty())
         {
             output_formatter.DisplayError("Mandatory arguments are missing!!");
             result = false;
-        }
-        else
-        {
-            if(!InputFiles.empty() && (!InputFile1.empty() || !InputFile2.empty()))
-                output_formatter.DisplayError("Input files can either be specified as two paired-end files (with i1 and i2 options) or as a list of files (with i option)");
         }
     }
     
