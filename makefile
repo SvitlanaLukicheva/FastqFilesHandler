@@ -10,7 +10,7 @@ CC := g++
 
 
 # project related global variables
-TARGET     := fastq_files_converter
+TARGET     := launcher
 DATA_DIR   := data
 SRC_DIR    := src
 BUILD_DIR  := obj
