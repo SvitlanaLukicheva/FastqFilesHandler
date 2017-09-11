@@ -1,37 +1,70 @@
-DATA_FOLDER=./data
-SOURCES_FOLDER=./src
+############ PERSONAL NOTES ############
+
+# this makefile is inspired from https://stackoverflow.com/a/27794283/8592608
 
 
-all: main.o
-	@echo "=== Compiling library..."
-	@g++ -o fastq_files_converter reads_merger.o fastq_to_fasta_converter.o command_line_arguments.o main.o
+############ VARIABLES DEFINITIONS ############
+
+# compiler
+CC := g++
+
+
+# project related global variables
+TARGET     := fastq_files_converter
+DATA_DIR   := data
+SRC_DIR    := src
+BUILD_DIR  := obj
+TARGET_DIR := bin
+SRC_EXT    := cpp
+OBJ_EXT    := o
+
+# compiler related variables
+SOURCES    := $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT))
+OBJECTS    := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.$(OBJ_EXT)))
+
+
+
+############ COMPILER COMMANDS ############
+
+# default make
+all: directories $(TARGET)
 	@echo "=== Done."
+
+# remake
+remake: full_clean all
+
+# create the directories
+directories:
+	@echo "=== Creating directories..."
+	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(TARGET_DIR)
+
+# target creation	
+$(TARGET): $(OBJECTS)
+	@echo "=== Building final file..."
+	@$(CC) -o $(TARGET_DIR)/$(TARGET) $^
 	
-main.o: reads_merger.o fastq_to_fasta_converter.o command_line_arguments.o
-	@echo "=== Compiling the main program..."
-	@g++ -c ${SOURCES_FOLDER}/main.cpp
+# compilation
+$(BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.$(SRC_EXT)
+	@mkdir -p $(dir $@)
+	@echo "=== Compiling $@..."
+	@$(CC) -c -o $@ $<
 
-reads_merger.o: ${SOURCES_FOLDER}/reads_merger.hpp
-	@echo "=== Compiling reads_merger..."
-	@g++ -c ${SOURCES_FOLDER}/reads_merger.cpp
-
-fastq_to_fasta_converter.o: ${SOURCES_FOLDER}/fastq_to_fasta_converter.hpp
-	@echo "=== Compiling fastq_to_fasta_converter..."
-	@g++ -c ${SOURCES_FOLDER}/fastq_to_fasta_converter.cpp
+# clean only objects
+clean:
+	@echo "=== Cleaning objects..."
+	@$(RM) -rf $(BUILD_DIR)
 	
-command_line_arguments.o: ${SOURCES_FOLDER}/command_line_arguments.hpp
-	@echo "=== Compiling command_line_arguments..."
-	@g++ -c ${SOURCES_FOLDER}/command_line_arguments.cpp
+# full clean: objects and binaries
+full_clean: clean
+	@echo "=== Cleaning binaries..."
+	@$(RM) -rf $(TARGET_DIR)
 
-
+	
+############ PROGRAM_EXECUTION ############	
+	
 run_merger: all
-	./fastq_files_converter -j merger -o ${DATA_FOLDER}/output_merger -i ${DATA_FOLDER}/input_1 ${DATA_FOLDER}/input_2 ${DATA_FOLDER}/input_3 ${DATA_FOLDER}/input_4
+	$(TARGET) -j merger -o ${DATA_DIR}/output_merger -i ${DATA_DIR}/input_1 ${DATA_DIR}/input_2 ${DATA_DIR}/input_3 ${DATA_DIR}/input_4
 	
 run_converter: all
-	./fastq_files_converter -j converter -o ${DATA_FOLDER}/output_converter -i ${DATA_FOLDER}/output_merger
-	
-
-clean:
-	@echo "=== Cleaning files..."
-	@rm -rf ./reads_merger *.o
-	@echo "=== Done."
+	$(TARGET) -j converter -o ${DATA_DIR}/output_converter -i ${DATA_DIR}/output_merger
