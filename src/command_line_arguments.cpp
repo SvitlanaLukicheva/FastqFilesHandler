@@ -4,12 +4,21 @@
 using namespace std;
 
 
+/**
+ * Constructor
+ */
 CommandLineArguments::CommandLineArguments()
 {
     JobType = -1;
 }
 
 
+/**
+ * Command line parser
+ * @param argc
+ * @param argv
+ * @return 
+ */
 bool CommandLineArguments::Parse(int argc, char* argv[])
 {
     bool result = true;
@@ -17,19 +26,14 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
     
     if(argc <= 1)
     {
-        cout << "=== FAILURE: invalid number of parameters provided: " << argc;
+        output_formatter.DisplayError("Invalid number of parameters provided: " + argc);
         result = false;
     }
     else
-    {
-        bool job_type_specified, input_specified, output_specified = false;
-        
+    {        
         for(int i = 1; i < argc; i++)
         {
-            if(debug)
-            {
-                cout << "=== DEBUG: reading parameter " << argv[i] << "\n";
-            }
+            output_formatter.DisplayDebug("Reading parameter " + string(argv[i]));
             if(argv[i][0] == '-')
             {
                 string parameter = argv[i];
@@ -37,21 +41,18 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                 {
                     i++;
                     string job_type = argv[i];
-                    if(debug)
-                        cout << "=== DEBUG: job type is " << job_type << "\n";
+                    output_formatter.DisplayDebug("Job type is " + job_type);
                     if(job_type == "merger")
                     {
                         JobType = 0;
-                        job_type_specified = true;
                     }
                     else if(job_type == "converter")
                     {
                         JobType = 1;
-                        job_type_specified = true;
                     }
                     else
                     {
-                        cout << "=== FAILURE: invalid job type specified: " << job_type << "\n";
+                        output_formatter.DisplayError("Invalid job type specified: " + job_type);
                         result = false;
                     }
                 }
@@ -59,7 +60,6 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                 {
                     i++;
                     OutputFile = argv[i];
-                    output_specified = true;
                 }
                 else if(parameter == "-i")  // input
                 {
@@ -67,30 +67,43 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                     while(i < argc && argv[i][0] != '-')
                     {
                         string input_file = argv[i];
-                        if(debug)
-                            cout << "=== DEBUG: adding input file " << input_file << "\n";
+                        output_formatter.DisplayDebug("Adding input file " + input_file);
                         InputFiles.push_back(input_file);
                         i++;
                     }
-                    input_specified = true;
+                }
+                else if(parameter == "i1")  // first paired end file
+                {
+                    i++;
+                    InputFile1 = argv[i];
+                }
+                else if(parameter == "i2")  // second paired end file
+                {
+                    i++;
+                    InputFile2 = argv[i];
                 }
                 else
                 {
-                    cout << "=== FAILURE: unknown parameter " << parameter << "\n";
+                    output_formatter.DisplayError("Unknown parameter " + parameter);
                     result = false;
                     break;
                 }
             }
             else
             {
-                cout << "=== FAILURE: invalid usage of program arguments at " << argv[i] << "\n";
+                output_formatter.DisplayError("Invalid usage of program arguments at " + string(argv[i]));
                 result = false;
             }
         }
-        if(!job_type_specified || !input_specified || !output_specified)
+        if(JobType == -1 || (InputFiles.empty() && (InputFile1.empty() || InputFile2.empty())) || OutputFile.empty())
         {
-            cout << "=== FAILURE: mandatory arguments are missing \n";
+            output_formatter.DisplayError("Mandatory arguments are missing!!");
             result = false;
+        }
+        else
+        {
+            if(!InputFiles.empty() && (!InputFile1.empty() || !InputFile2.empty()))
+                output_formatter.DisplayError("Input files can either be specified as two paired-end files (with i1 and i2 options) or as a list of files (with i option)");
         }
     }
     
@@ -101,8 +114,12 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
 }
 
 
+/**
+ * Shows the usage of the program
+ */
 void CommandLineArguments::ShowUsage()
 {
     // TODO
+    cout << "\n";
     cout << "COUCOU\n";
 }
