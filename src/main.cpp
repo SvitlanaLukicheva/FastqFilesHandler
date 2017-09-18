@@ -2,6 +2,7 @@
 #include "command_line_arguments.hpp"
 #include "fastq_to_fasta_converter.hpp"
 #include "reads_merger.hpp"
+#include "seq_remover.hpp"
 
 
 int main(int argc, char* argv[])
@@ -11,7 +12,6 @@ int main(int argc, char* argv[])
 
     output_formatter.DisplayInfo("WELCOME TO FASTQ FILES CONVERTER!");
     CommandLineArguments* arguments = new CommandLineArguments();
-    FastqToFastaConverter* converter;
     
     if(!arguments->Parse(argc, argv))
     {
@@ -19,13 +19,13 @@ int main(int argc, char* argv[])
     }
     else
     {
-        if(arguments->JobType == 0)   // reads merger
+        if(arguments->JobType == merger)
         {
             ReadsMerger* merger = new ReadsMerger(arguments->InputFiles, arguments->OutputFile);
             result = merger->DoTheJob() ? 0 : -1;
             delete merger;
         }
-        else if(arguments->JobType == 1)  // fastq to fasta converter
+        else if(arguments->JobType == converter)
         {
             if(arguments->InputFiles.size() != 1)
             {
@@ -38,6 +38,12 @@ int main(int argc, char* argv[])
                 converter->DoTheJob();
                 delete converter;
             }
+        }
+        else if(arguments->JobType == seq_remover)
+        {
+            SeqRemover* seq_remover = new SeqRemover(arguments->InputFiles, arguments->OutputFile, arguments->SeqToRemove);
+            seq_remover->DoTheJob();
+            delete seq_remover;
         }
         else
         {

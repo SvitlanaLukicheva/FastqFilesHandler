@@ -9,7 +9,8 @@ using namespace std;
  */
 CommandLineArguments::CommandLineArguments()
 {
-    JobType = -1;
+    JobType = undefined;
+    SeqToRemove = "";
 }
 
 
@@ -43,13 +44,11 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                     string job_type = argv[i];
                     output_formatter.DisplayDebug("Job type is " + job_type);
                     if(job_type == "merger")
-                    {
-                        JobType = 0;
-                    }
+                        JobType = merger;
                     else if(job_type == "converter")
-                    {
-                        JobType = 1;
-                    }
+                        JobType = converter;
+                    else if(job_type == "seq_remover")
+                        JobType = seq_remover;
                     else
                     {
                         output_formatter.DisplayError("Invalid job type specified: " + job_type);
@@ -71,6 +70,11 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                         InputFiles.push_back(input_file);
                         i++;
                     }
+                }
+                else if(parameter == "-s")  // sequence to remove for seq_remover
+                {
+                    i++;
+                    SeqToRemove = argv[i];
                 }
                 else
                 {

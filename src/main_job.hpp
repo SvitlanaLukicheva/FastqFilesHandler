@@ -15,6 +15,15 @@
 #include "output_formatter.hpp"
 
 
+enum JobTypeEnum
+{
+    undefined,
+    merger,
+    converter,
+    seq_remover
+};
+
+
 class MainJob
 {
     public:

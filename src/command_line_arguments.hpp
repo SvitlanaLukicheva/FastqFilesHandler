@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <list>
+#include "main_job.hpp"
 #include "output_formatter.hpp"
 
 using std::list;
@@ -19,9 +20,11 @@ using std::string;
 class CommandLineArguments
 {    
 public:
-    int JobType;
-    list<string> InputFiles;
-    string OutputFile;
+    JobTypeEnum     JobType;
+    list<string>    InputFiles;
+    string          OutputFile;
+    
+    string          SeqToRemove;
  
     CommandLineArguments();
     
