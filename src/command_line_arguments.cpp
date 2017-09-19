@@ -23,7 +23,6 @@ CommandLineArguments::CommandLineArguments()
 bool CommandLineArguments::Parse(int argc, char* argv[])
 {
     bool result = true;
-    bool debug = false;
     
     if(argc <= 1)
     {
@@ -63,18 +62,27 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                 else if(parameter == "-i")  // input
                 {
                     i++;
-                    while(i < argc && argv[i][0] != '-')
+                    while(i < argc)
                     {
-                        string input_file = argv[i];
-                        output_formatter.DisplayDebug("Adding input file " + input_file);
-                        InputFiles.push_back(input_file);
-                        i++;
+                        if(argv[i][0] == '-')  // new parameter
+                        {
+                            i--;
+                            break;
+                        }
+                        else
+                        {
+                            string input_file = argv[i];
+                            output_formatter.DisplayDebug("Adding input file " + input_file);
+                            InputFiles.push_back(input_file);
+                            i++;
+                        }
                     }
                 }
                 else if(parameter == "-s")  // sequence to remove for seq_remover
                 {
                     i++;
                     SeqToRemove = argv[i];
+                    output_formatter.DisplayDebug("Storing sequence " + SeqToRemove);
                 }
                 else
                 {
@@ -98,6 +106,8 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
     
     if(result == false)
         ShowUsage();
+    else
+        output_formatter.DisplayDebug("Program parameters successfully read");
     
     return result;
 }
@@ -109,6 +119,5 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
 void CommandLineArguments::ShowUsage()
 {
     // TODO
-    cout << "\n";
     cout << "COUCOU\n";
 }
