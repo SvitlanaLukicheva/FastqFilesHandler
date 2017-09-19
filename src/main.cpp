@@ -7,7 +7,7 @@
 
 int main(int argc, char* argv[])
 {
-    int result = 0;
+    bool result = true;
     OutputFormatter output_formatter;
 
     output_formatter.DisplayInfo("WELCOME TO FASTQ FILES CONVERTER!");
@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     
     if(!arguments->Parse(argc, argv))
     {
-        result = -1;
+        result = false;
     }
     else
     {
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
             if(arguments->InputFiles.size() != 1)
             {
                 output_formatter.DisplayError("Invalid number of input files provided: " + arguments->InputFiles.size() + string(" instead of 1"));
-                result = -1;
+                result = false;
             }
             else
             {
@@ -48,13 +48,16 @@ int main(int argc, char* argv[])
         else
         {
             output_formatter.DisplayError("Unknown job type (" + arguments->JobType);
-            result = -1;
+            result = false;
         }
     }
     
     delete arguments;
 
-    output_formatter.DisplayInfo("DONE");
+    if(result == true)
+        output_formatter.DisplayInfo("DONE");
+    else
+        output_formatter.DisplayError("EXECUTION ABORTED");
     
-    return result;
+    return result == true ? 0 : -1;
 }
