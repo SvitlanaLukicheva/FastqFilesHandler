@@ -12,7 +12,7 @@
  */
 bool MainJob::write_lines(string line_1, string line_2, string line_3, string line_4, ofstream* output)
 {
-    bool result; 
+    bool result = false;
     
     if(output != NULL)
     {
@@ -20,12 +20,10 @@ bool MainJob::write_lines(string line_1, string line_2, string line_3, string li
         *output << line_2 << "\n";  // sequence
         *output << line_3 << "\n";  // '+' symbol
         *output << line_4 << "\n";  // scores
+        result = true;
     }
     else
-    {
         output_formatter.DisplayError("Invalid output file");
-        result = -1;
-    }
     
     return result;
 }
