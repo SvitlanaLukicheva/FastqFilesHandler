@@ -26,7 +26,11 @@ bool SeqRemover::DoTheJob()
     bool result = false;
     
     if(my_input_files.size() % 2 != 0)
-        output_formatter.DisplayError("Invalid number of input files provided: " + my_input_files.size());
+    {
+        char files_number_as_string[21];
+        sprintf(files_number_as_string, "%d", my_input_files.size());
+        output_formatter.DisplayError("Invalid number of input files provided: " + string(files_number_as_string));
+    }
     else
     {
         for(list<string>::iterator it=my_input_files.begin(); it != my_input_files.end(); it++)
