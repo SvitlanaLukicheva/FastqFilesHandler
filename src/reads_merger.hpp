@@ -4,8 +4,6 @@
 
 #include "main_job.hpp"
 
-using std::ifstream;
-using std::ofstream;
 using std::list;
 using std::string;
 
@@ -17,11 +15,10 @@ class ReadsMerger : MainJob
         bool DoTheJob();
 
     private:
-        std::list<string> my_input_files;
-        string my_output_file;
+        std::list<string>   my_input_files;
+        string              my_output_file;
         
         bool merge_reads(ifstream *input_1, ifstream *input_2, ofstream *output);
-        bool read_and_write_lines(ifstream *input, ofstream *output);
 };
 
 

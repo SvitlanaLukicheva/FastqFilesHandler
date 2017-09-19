@@ -28,9 +28,11 @@ bool ReadsMerger::DoTheJob()
                 string file_1 = *it;
                 it++;
                 string file_2 = *it;
+                
                 output_formatter.DisplayInfo("Reading files " + file_1 + " and " + file_2);
                 ifstream input_1(file_1.c_str());
                 ifstream input_2(file_2.c_str());
+                
                 if(input_1.is_open() && input_2.is_open())
                     merge_reads(&input_1, &input_2, &output);
                 else
@@ -78,33 +80,6 @@ bool ReadsMerger::merge_reads(ifstream *input_1, ifstream *input_2, ofstream *ou
             please_continue = false;
         }
     }	
-
-    return result;
-}
-
-
-bool ReadsMerger::read_and_write_lines(ifstream *input, ofstream *output)
-{
-    bool result = false;
-    string line_1, line_2, line_3, line_4;
-
-    if(getline(*input, line_1))  // comment
-    {
-        if(getline(*input, line_2))  // sequence
-        {
-            if(getline(*input, line_3))  // '+' symbol
-            {
-                if(getline(*input, line_4))  // scores
-                {
-                    *output << line_1 << "\n";  // comment
-                    *output << line_2 << "\n";  // sequence
-                    *output << line_3 << "\n";  // '+' symbol
-                    *output << line_4 << "\n";  // scores
-                    result = true;
-                }
-            }
-        }
-    }
 
     return result;
 }
