@@ -17,13 +17,13 @@ using std::string;
 class OutputFormatter
 {
 public:
-    static void DisplayInfo(string a_message);
+    static void DisplayInfo   (string a_message);
     static void DisplayWarning(string a_message);
-    static void DisplayError(string a_message);
-    static void DisplayDebug(string a_message);
+    static void DisplayError  (string a_message);
+    static void DisplayDebug  (string a_message);
     
 private:
-    static const bool debug_is_enabled = true;
+    static const bool debug_is_enabled = false;
 };
 
 #endif /* OUTPUT_FORMATTER_HPP */
