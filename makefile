@@ -64,7 +64,10 @@ full_clean: clean
 ############ PROGRAM_EXECUTION ############	
 	
 run_merger: all
-	$(TARGET_DIR)/$(TARGET) -j merger -o ${DATA_DIR}/output_merger -i ${DATA_DIR}/input_1 ${DATA_DIR}/input_2 ${DATA_DIR}/input_3 ${DATA_DIR}/input_4
+	$(TARGET_DIR)/$(TARGET) -x merger -i $(DATA_DIR)/input_1 $(DATA_DIR)/input_2 $(DATA_DIR)/input_3 $(DATA_DIR)/input_4 -o $(DATA_DIR)/output_merger
 	
 run_converter: all
-	$(TARGET_DIR)/$(TARGET) -j converter -o ${DATA_DIR}/output_converter -i ${DATA_DIR}/output_merger
+	$(TARGET_DIR)/$(TARGET) -x converter -i $(DATA_DIR)/output_merger -o $(DATA_DIR)/output_converter
+	
+run_seq_remover: all
+	$(TARGET_DIR)/$(TARGET) -x seq_remover -i $(DATA_DIR)/input_1 $(DATA_DIR)/input_2 -o $(DATA_DIR)/seq_remover_output -s CCCAT
