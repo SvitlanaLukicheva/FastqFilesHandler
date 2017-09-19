@@ -94,9 +94,12 @@ bool SeqRemover::remove_sequence_from_files(ifstream* input_1, ifstream* input_2
     bool result          = true;
     bool please_continue = true;
     bool first_read_ok, second_read_ok;
+    string filtered_reads_file_name = my_output_folder + "/filtered_reads.fastq";
     
     string line_1_1, line_1_2, line_1_3, line_1_4;
     string line_2_1, line_2_2, line_2_3, line_2_4;
+    
+    ofstream filtered_reads_file (filtered_reads_file_name.c_str());
     
     while(please_continue)
     {
@@ -118,10 +121,12 @@ bool SeqRemover::remove_sequence_from_files(ifstream* input_1, ifstream* input_2
             }
             else
             {
-                output_formatter.DisplayInfo("Removing sequences:");
-                output_formatter.DisplayInfo("File 1: " + line_1_1);
-                output_formatter.DisplayInfo("File 2: " + line_2_1);
                 sequences_removed++;
+                result = write_lines(line_1_1, line_1_2, line_1_3, line_1_4, &filtered_reads_file);
+                result = result && write_lines(line_2_1, line_2_2, line_2_3, line_2_4, &filtered_reads_file);
+                output_formatter.DisplayDebug("Removing sequences:");
+                output_formatter.DisplayDebug("File 1: " + line_1_1);
+                output_formatter.DisplayDebug("File 2: " + line_2_1);
             }
         }
         else
@@ -139,9 +144,6 @@ bool SeqRemover::remove_sequence_from_files(ifstream* input_1, ifstream* input_2
             }
         }
     }
-    
-    if(result == true)
-        output_formatter.DisplayInfo("HOUHOU");
     
     return result;
 }
