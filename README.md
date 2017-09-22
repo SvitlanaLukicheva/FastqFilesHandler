@@ -21,7 +21,9 @@ The program can be launched by invoking launcher.exe situated in bin folder.
 - **-o**: the output file or directory
 
 ## Optional parameters:
-- **-s**: DNA sequence to remove, in case of seq-remover program
+- **-s**: DNA sequence to remove, in case of seq_remover program
+- **-b**: begin index, in case of seq_remover program
+- **-e**: end index, in case of seq_remover program
 
 ## Sub-programs
 
@@ -45,6 +47,8 @@ launcher.exe -x converter -i output_merger.fastq -o output_converter.fasta
 
 Sequences remover takes as input one or several pairs of paired-end fastq files and one or several DNA sequences. If one (or both) read(s) of a read pair contain(s) one of these sequences, the entire pair of reads is removed. The output files are stored in the specified output_folder (wchich must be created by the user) and are named by taking the original file names and prefixing them with "filtered\_" prefix. An additional file, filtered_reads.fastq, contains all the filtered sequences.
 
+If needed, a begin and/or end index can be specified in order to restring the search space on reads to the desired intervalle.
+
 ```
-launcher.exe -x seq_remover -i i1_r1.fastq i1_r2.fastq -o output_folder -s AATGATACGGCGACCACCGAGAT TAGGCTTCA
+launcher.exe -x seq_remover -i i1_r1.fastq i1_r2.fastq -o output_folder -s AATGATACGGCGACCACCGAGAT TAGGCTTCA -b 10 -e 200
 ```
