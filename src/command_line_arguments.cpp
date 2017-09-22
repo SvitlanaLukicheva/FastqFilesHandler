@@ -10,7 +10,6 @@ using namespace std;
 CommandLineArguments::CommandLineArguments()
 {
     JobType = undefined;
-    SeqToRemove = "";
 }
 
 
@@ -81,8 +80,21 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                 else if(parameter == "-s")  // sequence to remove for seq_remover
                 {
                     i++;
-                    SeqToRemove = argv[i];
-                    output_formatter.DisplayDebug("Storing sequence " + SeqToRemove);
+                    while(i < argc)
+                    {
+                        if(argv[i][0] == '-')  // new parameter
+                        {
+                            i--;
+                            break;
+                        }
+                        else
+                        {
+                            string seq_to_remove = argv[i];
+                            output_formatter.DisplayDebug("Adding sequence to remove " + seq_to_remove);
+                            SeqToRemove.push_back(seq_to_remove);
+                            i++;
+                        }
+                    }
                 }
                 else
                 {

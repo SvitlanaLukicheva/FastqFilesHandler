@@ -7,12 +7,12 @@
  * @param output_folder
  * @param sequence_to_remove
  */
-SeqRemover::SeqRemover(list<string> input_files, string output_folder, string sequence_to_remove)
+SeqRemover::SeqRemover(list<string> input_files, string output_folder, list<string> sequence_to_remove)
 {
-    my_input_files        = input_files;
-    my_output_folder      = output_folder;
-    my_sequence_to_remove = sequence_to_remove;
-    sequences_removed     = 0;
+    my_input_files         = input_files;
+    my_output_folder       = output_folder;
+    my_sequences_to_remove = sequence_to_remove;
+    sequences_removed      = 0;
 }
 
 
@@ -73,7 +73,7 @@ bool SeqRemover::DoTheJob()
     
     if(result == true)
     {
-        output_formatter.DisplayInfo("Sequence " + my_sequence_to_remove + " successfully removed from files");
+        output_formatter.DisplayInfo("Sequences successfully removed from files");
         char sequences_removed_as_string[21];
         sprintf(sequences_removed_as_string, "%d", sequences_removed);
         output_formatter.DisplayInfo(string(sequences_removed_as_string) + " read pairs removed");
@@ -117,8 +117,7 @@ bool SeqRemover::remove_sequence_from_files(ifstream* input_1, ifstream* input_2
                          getline(*input_2, line_2_4);
         if(first_read_ok && second_read_ok)
         {
-            if(line_1_2.find(my_sequence_to_remove) == string::npos &&
-               line_2_2.find(my_sequence_to_remove) == string::npos)  // no matches found
+            if(check_matches(line_1_2, line_2_2) == false)
             {
                 result = write_lines(line_1_1, line_1_2, line_1_3, line_1_4, output_1);
                 result = result && write_lines(line_2_1, line_2_2, line_2_3, line_2_4, output_2);
@@ -146,6 +145,33 @@ bool SeqRemover::remove_sequence_from_files(ifstream* input_1, ifstream* input_2
                 output_formatter.DisplayError("Input files do not have the same length!! First file is shorter!!");
                 result = false;
             }
+        }
+    }
+    
+    return result;
+}
+
+
+/**
+ * Checks whether the first and/or the second read contain one of the specified
+ * sequences to remove
+ * @param first_read
+ * @param second_read
+ * @return 
+ */
+bool SeqRemover::check_matches(string first_read, string second_read)
+{
+    bool result = false;
+    
+    string sequence_to_search;
+    for (list<string>::iterator it=my_sequences_to_remove.begin(); it != my_sequences_to_remove.end(); ++it)
+    {
+        sequence_to_search = *it;
+        if(first_read.find(sequence_to_search) != string::npos ||
+           second_read.find(sequence_to_search) != string::npos)  // a match is found
+        {
+            result = true;
+            break;
         }
     }
     

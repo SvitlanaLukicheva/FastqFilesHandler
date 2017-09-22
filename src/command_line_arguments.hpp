@@ -24,7 +24,7 @@ public:
     list<string>    InputFiles;
     string          OutputFile;
     
-    string          SeqToRemove;
+    list<string>    SeqToRemove;
  
     CommandLineArguments();
     
