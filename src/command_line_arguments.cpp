@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <stdlib.h>
 #include "command_line_arguments.hpp"
 
 using namespace std;
