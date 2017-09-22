@@ -1,4 +1,4 @@
-# FastqFilesConverter
+# FastqFilesHandler user's guide
 Program allowing to perform the following transformations on fastq files:
 - merge several fastq files in one interleaved fastq file
 - convert files in fastq format to fasta format
