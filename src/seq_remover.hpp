@@ -20,7 +20,7 @@ using std::string;
 class SeqRemover : MainJob
 {
     public:
-        SeqRemover(list<string> input_files, string output_folder, list<string> sequence_to_remove);
+        SeqRemover(list<string> input_files, string output_folder, list<string> sequence_to_remove, int begin_index = 0, int end_index = 0);
         bool DoTheJob();
         
         
@@ -28,6 +28,8 @@ class SeqRemover : MainJob
         list<string>    my_input_files;
         string          my_output_folder;
         list<string>    my_sequences_to_remove;
+        int             my_begin_index;
+        int             my_end_index;
         int             sequences_removed;
         
         bool remove_sequence_from_files(ifstream *input_1, ifstream *input_2, ofstream *output_1, ofstream *output_2);

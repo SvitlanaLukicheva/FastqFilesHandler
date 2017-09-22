@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
         }
         else if(arguments->JobType == seq_remover)
         {
-            SeqRemover* seq_remover = new SeqRemover(arguments->InputFiles, arguments->OutputFile, arguments->SeqToRemove);
+            SeqRemover* seq_remover = new SeqRemover(arguments->InputFiles, arguments->OutputFile, arguments->SeqToRemove, arguments->BeginIndex, arguments->EndIndex);
             seq_remover->DoTheJob();
             delete seq_remover;
         }

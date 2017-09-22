@@ -20,11 +20,15 @@ using std::string;
 class CommandLineArguments
 {    
 public:
-    JobTypeEnum     JobType;
-    list<string>    InputFiles;
-    string          OutputFile;
+    // general settings
+    JobTypeEnum     JobType;        // specifies the job to execute
+    list<string>    InputFiles;     // specifies the input files to handle
+    string          OutputFile;     // specifies the output file or folder, depending on job
     
-    list<string>    SeqToRemove;
+    // seq_remover related
+    list<string>    SeqToRemove;    // specifies one or several sequences to remove
+    int             BeginIndex;     // specifies the index from which the search for patterns starts on the reads
+    int             EndIndex;       // specifies the index until which the search for patterns is done
  
     CommandLineArguments();
     

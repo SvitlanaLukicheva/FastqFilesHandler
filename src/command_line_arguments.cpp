@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "command_line_arguments.hpp"
 
 using namespace std;
@@ -9,7 +10,9 @@ using namespace std;
  */
 CommandLineArguments::CommandLineArguments()
 {
-    JobType = undefined;
+    JobType     = undefined;
+    BeginIndex  = 0;
+    EndIndex    = 0;
 }
 
 
@@ -57,6 +60,7 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                 {
                     i++;
                     OutputFile = argv[i];
+                    output_formatter.DisplayDebug("Storing the output file: " + OutputFile);
                 }
                 else if(parameter == "-i")  // input
                 {
@@ -96,6 +100,40 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
                         }
                     }
                 }
+                else if(parameter == "-b")  // begin index for seq_remover
+                {
+                    i++;
+                    BeginIndex = atoi(argv[i]);
+                    if((BeginIndex == 0 && argv[i] != "0") || BeginIndex < 0)
+                    {
+                        output_formatter.DisplayError("Invalid begin index specified!!");
+                        result = false;
+                        break;
+                    }
+                    else
+                    {
+                        stringstream ss;
+                        ss << "Storing the begin index: " << BeginIndex;
+                        output_formatter.DisplayDebug(ss.str());
+                    }
+                }
+                else if(parameter == "-e")  // end index for seq_remover
+                {
+                    i++;
+                    EndIndex = atoi(argv[i]);
+                    if((EndIndex == 0 && argv[i] != "0") || EndIndex < 0)
+                    {
+                        output_formatter.DisplayError("Invalid end index specified!!");
+                        result = false;
+                        break;
+                    }
+                    else
+                    {
+                        stringstream ss;
+                        ss << "Storing the end index: " << EndIndex;
+                        output_formatter.DisplayDebug(ss.str());
+                    }
+                }
                 else
                 {
                     output_formatter.DisplayError("Unknown parameter " + parameter);
@@ -112,6 +150,11 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
         if(JobType == -1 || InputFiles.empty() || OutputFile.empty())
         {
             output_formatter.DisplayError("Mandatory arguments are missing!!");
+            result = false;
+        }
+        else if(BeginIndex > EndIndex)
+        {
+            output_formatter.DisplayError("Begin index is greater than end index!!");
             result = false;
         }
     }

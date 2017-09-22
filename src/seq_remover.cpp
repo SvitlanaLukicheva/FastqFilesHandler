@@ -1,4 +1,7 @@
+#include <cmath>
 #include "seq_remover.hpp"
+
+using namespace std;
 
 
 /**
@@ -7,12 +10,14 @@
  * @param output_folder
  * @param sequence_to_remove
  */
-SeqRemover::SeqRemover(list<string> input_files, string output_folder, list<string> sequence_to_remove)
+SeqRemover::SeqRemover(list<string> input_files, string output_folder, list<string> sequence_to_remove, int begin_index, int end_index)
 {
-    my_input_files         = input_files;
-    my_output_folder       = output_folder;
-    my_sequences_to_remove = sequence_to_remove;
-    sequences_removed      = 0;
+    my_input_files          = input_files;
+    my_output_folder        = output_folder;
+    my_sequences_to_remove  = sequence_to_remove;
+    my_begin_index          = begin_index;
+    my_end_index            = end_index;
+    sequences_removed       = 0;
 }
 
 
@@ -166,9 +171,16 @@ bool SeqRemover::check_matches(string first_read, string second_read)
     string sequence_to_search;
     for (list<string>::iterator it=my_sequences_to_remove.begin(); it != my_sequences_to_remove.end(); ++it)
     {
+        int new_begin_index = fmin(my_begin_index, first_read.length());
+        int new_end_index   = fmin(my_end_index, first_read.length());
+        string first_sub_read = first_read.substr(new_begin_index, new_end_index - my_begin_index);
+        new_begin_index = fmax(my_begin_index, second_read.length());
+        new_end_index   = fmin(my_end_index, second_read.length());
+        string second_sub_read = second_read.substr(new_begin_index, new_end_index - my_begin_index);
+                
         sequence_to_search = *it;
-        if(first_read.find(sequence_to_search) != string::npos ||
-           second_read.find(sequence_to_search) != string::npos)  // a match is found
+        if(first_sub_read.find(sequence_to_search) != string::npos ||
+           second_sub_read.find(sequence_to_search) != string::npos)  // a match is found
         {
             result = true;
             break;

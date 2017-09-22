@@ -70,4 +70,4 @@ run_converter: all
 	$(TARGET_DIR)/$(TARGET) -x converter -i $(DATA_DIR)/output_merger -o $(DATA_DIR)/output_converter
 	
 run_seq_remover: all
-	$(TARGET_DIR)/$(TARGET) -x seq_remover -i $(DATA_DIR)/input_1 $(DATA_DIR)/input_2 -o $(DATA_DIR) -s CCCAT TAAAC
+	$(TARGET_DIR)/$(TARGET) -x seq_remover -i $(DATA_DIR)/input_1 $(DATA_DIR)/input_2 -o $(DATA_DIR) -s CCCAT TAAAC -b 42 -e 180
