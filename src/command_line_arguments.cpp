@@ -13,7 +13,7 @@ CommandLineArguments::CommandLineArguments()
 {
     JobType     = undefined;
     BeginIndex  = 0;
-    EndIndex    = 0;
+    EndIndex    = -1;
 }
 
 
@@ -153,7 +153,7 @@ bool CommandLineArguments::Parse(int argc, char* argv[])
             output_formatter.DisplayError("Mandatory arguments are missing!!");
             result = false;
         }
-        else if(BeginIndex > EndIndex)
+        else if(EndIndex != -1 && BeginIndex > EndIndex)
         {
             output_formatter.DisplayError("Begin index is greater than end index!!");
             result = false;

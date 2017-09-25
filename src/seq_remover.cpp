@@ -172,10 +172,10 @@ bool SeqRemover::check_matches(string first_read, string second_read)
     for (list<string>::iterator it=my_sequences_to_remove.begin(); it != my_sequences_to_remove.end(); ++it)
     {
         int new_begin_index = fmin(my_begin_index, first_read.length());
-        int new_end_index   = fmin(my_end_index, first_read.length());
+        int new_end_index   = my_end_index != -1 ? fmin(my_end_index, first_read.length()) : first_read.length();
         string first_sub_read = first_read.substr(new_begin_index, new_end_index - my_begin_index);
         new_begin_index = fmax(my_begin_index, second_read.length());
-        new_end_index   = fmin(my_end_index, second_read.length());
+        new_end_index   = my_end_index != -1 ? fmin(my_end_index, second_read.length()) : second_read.length();
         string second_sub_read = second_read.substr(new_begin_index, new_end_index - my_begin_index);
                 
         sequence_to_search = *it;
