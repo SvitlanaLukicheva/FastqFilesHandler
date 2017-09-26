@@ -10,7 +10,7 @@ CC := g++
 
 
 # project related global variables
-TARGET     := launcher
+TARGET     := ffhandler
 DATA_DIR   := data
 SRC_DIR    := src
 BUILD_DIR  := obj
