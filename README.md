@@ -12,7 +12,7 @@ The program can be compiled by running "make" command in the main folder.
 # Usage
 The program can be launched by invoking launcher.exe situated in bin folder.
 
-## Mandatory parameters:
+## Common parameters:
 - **-x**: the program to execute
     - **merger**
     - **converter**
@@ -20,10 +20,11 @@ The program can be launched by invoking launcher.exe situated in bin folder.
 - **-i**: the list of input files (in case of paired-end files, the order of files is file1_R1 file1_R2 file2_R1 file2_R2...)
 - **-o**: the output file or directory
 
-## Optional parameters:
-- **-s**: DNA sequence to remove, in case of seq_remover program
-- **-b**: begin index, in case of seq_remover program
-- **-e**: end index, in case of seq_remover program
+## Sub-program related parameters:
+- for seq_remover program:
+    - **-s**: DNA sequence to remove
+    - **-b** (optional): begin index
+    - **-e** (optional): end index
 
 ## Sub-programs
 
