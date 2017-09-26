@@ -10,7 +10,7 @@ The program can be compiled by running "make" command in the main folder.
 
 
 # Usage
-The program can be launched by invoking launcher.exe situated in bin folder.
+The program can be launched by invoking **ffhandler.exe** situated in bin folder.
 
 ## Common parameters:
 - **-x**: the program to execute
@@ -33,7 +33,7 @@ The program can be launched by invoking launcher.exe situated in bin folder.
 Merger takes as input a list of paired-end files in fastq format and provides a unique interleaved file in fastq format. The program raises an error if an uneven number of input files is provided.
 
 ```
-launcher.exe -x merger -i i1_r1.fastq i1_r2.fastq i2_r1.fastq i2_r2.fastq -o ${DATA_DIR}/output_merger.fastq
+ffhandler.exe -x merger -i i1_r1.fastq i1_r2.fastq i2_r1.fastq i2_r2.fastq -o ${DATA_DIR}/output_merger.fastq
 ```
 
 ### Converter
@@ -41,7 +41,7 @@ launcher.exe -x merger -i i1_r1.fastq i1_r2.fastq i2_r1.fastq i2_r2.fastq -o ${D
 Converter takes as input one file in fastq format and converts it in fasta format. The program raises an error if more than one input file is provided.
 
 ```
-launcher.exe -x converter -i output_merger.fastq -o output_converter.fasta
+ffhandler.exe -x converter -i output_merger.fastq -o output_converter.fasta
 ```
 
 ### Sequences remover
@@ -51,5 +51,5 @@ Sequences remover takes as input one or several pairs of paired-end fastq files 
 If needed, a begin and/or end index can be specified in order to restring the search space on reads to the desired intervalle.
 
 ```
-launcher.exe -x seq_remover -i i1_r1.fastq i1_r2.fastq -o output_folder -s AATGATACGGCGACCACCGAGAT TAGGCTTCA -b 10 -e 200
+ffhandler.exe -x seq_remover -i i1_r1.fastq i1_r2.fastq -o output_folder -s AATGATACGGCGACCACCGAGAT TAGGCTTCA -b 10 -e 200
 ```
