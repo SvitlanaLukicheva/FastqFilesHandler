@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
         if(arguments->JobType == merger)
         {
             ReadsMerger* merger = new ReadsMerger(arguments->InputFiles, arguments->OutputFile);
-            result = merger->DoTheJob() ? 0 : -1;
+            result = merger->DoTheJob();
             delete merger;
         }
         else if(arguments->JobType == converter)
@@ -35,14 +35,14 @@ int main(int argc, char* argv[])
             else
             {
                 FastqToFastaConverter* converter = new FastqToFastaConverter(*(arguments->InputFiles.begin()), arguments->OutputFile);
-                converter->DoTheJob();
+                result = converter->DoTheJob();
                 delete converter;
             }
         }
         else if(arguments->JobType == seq_remover)
         {
             SeqRemover* seq_remover = new SeqRemover(arguments->InputFiles, arguments->OutputFile, arguments->SeqToRemove, arguments->BeginIndex, arguments->EndIndex);
-            seq_remover->DoTheJob();
+            result = seq_remover->DoTheJob();
             delete seq_remover;
         }
         else
