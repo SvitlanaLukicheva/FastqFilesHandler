@@ -48,6 +48,11 @@ bool FastqToFastaConverter::read_and_write_lines(ifstream* input, ofstream* outp
 
     if(getline(*input, line_1))  // comment
     {
+        if(line_1.length() > 0)
+        {
+            // in fastq files the first character of the comment is '@', while in fasta files it is '>'
+            line_1[0] = '>';
+        }
         if(getline(*input, line_2))  // sequence
         {
             if(getline(*input, line_3))  // '+' symbol
