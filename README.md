@@ -1,6 +1,6 @@
 # FastqFilesHandler user's guide
 Program allowing to perform the following transformations on fastq files:
-- merge several fastq files in one interleaved fastq file
+- merge several fastq files into one interleaved fastq file
 - convert files in fastq format to fasta format
 - remove read pairs containing a specified DNA sequence from paired-end fastq files
 
@@ -10,7 +10,7 @@ The program can be compiled by running "make" command in the main folder.
 
 
 # Usage
-The program can be launched by invoking **ffhandler.exe** situated in bin folder.
+The program can be launched by invoking **ffhandler.exe** situated in the bin folder.
 
 ## Common parameters:
 - **-x**: the program to execute
